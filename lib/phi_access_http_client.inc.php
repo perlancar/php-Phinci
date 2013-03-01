@@ -7,6 +7,20 @@
 #
 # This is free software; you can redistribute it and/or modify it under the
 # Artistic License 2.0.
+#
+# Usage examples:
+#
+# $res = phi_http_request("call", "http://localhost:5000/Perinci/Examples/gen_array", array("args"=>array("len"=>3)));
+
+# # http auth
+# $res = phi_http_request("call", "http://localhost:5000/Perinci/Examples/gen_array", array(), array("user" => "admin", "password" => "blah"));
+#
+# # ssl, disable verify peer (otherwise curl network error 60 if server doesn't have valid cert)
+# $res = phi_http_request("call", "https://localhost:5001/Perinci/Examples/gen_array", array(), array("ssl_verify_peer"=>0));
+#
+# other known copts:
+# - retries (int, default 2)
+# - retry_delay (int, default 3)
 
 # todo:
 # - support log viewing
@@ -20,7 +34,7 @@ function phi_http_request($action, $url, $extra=array(), $copts=array()) {
   $retry_delay = isset($copts['retry_delay']) ? $copts['retry_delay'] : 3;
 
   # form riap request
-  $rreq = array('action' => $action);
+  $rreq = array('action' => $action, 'ua' => 'Phinci');
   foreach($extra as $k => $v) { $rreq[$k] = $v; }
 
   # put all riap request keys, except some like args, to http headers
@@ -83,6 +97,10 @@ function phi_http_request($action, $url, $extra=array(), $copts=array()) {
     if (isset($copts['user'])) {
       curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
       curl_setopt($ch, CURLOPT_USERPWD, "$copts[user]:$copts[password]");
+    }
+    if (preg_match('/^https/i', $url)) {
+      if (isset($copts['ssl_verify_peer']) && !$copts['ssl_verify_peer'])
+          curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
     }
     $cres = curl_exec($ch);
     $cinfo = curl_getinfo($ch);
