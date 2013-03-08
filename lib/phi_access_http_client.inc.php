@@ -80,7 +80,8 @@ function phi_http_request($action, $url, $extra=array(), $copts=array()) {
   #print_r($postfields);
   $postfields_s = "";
   foreach ($postfields as $k => $v) {
-    $postfields_s .= urlencode($k) . "=" . urlencode($v);
+    $postfields_s .= (strlen($postfields_s) ? "&" : "") .
+      urlencode($k) . "=" . urlencode($v);
   }
   # ==
 
