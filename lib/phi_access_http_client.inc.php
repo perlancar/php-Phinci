@@ -117,7 +117,7 @@ function phi_http_request($action, $url, $extra=array(), $copts=array()) {
       $do_retry = false;
     } else {
       #echo "D1c: cres=$cres\n";
-      $res = json_decode($cres);
+      $res = json_decode($cres, true);
       $do_retry = false;
     }
     curl_close($ch);
