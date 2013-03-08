@@ -10,6 +10,9 @@
 # This is free software; you can redistribute it and/or modify it under the
 # Artistic License 2.0.
 #
+# For more information about Riap::HTTP protocol, see
+# https://metacpan.org/module/Riap::HTTP
+#
 # Usage examples:
 #
 # $res = phi_http_request("call", "http://localhost:5000/Perinci/Examples/gen_array", array("args"=>array("len"=>3)));
