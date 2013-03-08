@@ -2,6 +2,8 @@
 
 # Riap::HTTP client.
 #
+# Version: 20130301.1
+#
 # This software is copyright (c) 2013 by Steven Haryanto,
 # <stevenharyanto@gmail.com>.
 #
