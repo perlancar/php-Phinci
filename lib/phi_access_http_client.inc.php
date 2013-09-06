@@ -2,8 +2,6 @@
 
 # Riap::HTTP client.
 #
-# Version: 20130308.1
-#
 # This software is copyright (c) 2013 by Steven Haryanto,
 # <stevenharyanto@gmail.com>.
 #
@@ -31,6 +29,8 @@
 # - support log viewing
 # - support proxy
 
+$PHINCI_VERSION = '20130308.1';
+
 function phi_http_request($action, $url, $extra=array(), $copts=array()) {
   if (!extension_loaded("curl")) die("curl extension required");
 
@@ -39,7 +39,7 @@ function phi_http_request($action, $url, $extra=array(), $copts=array()) {
   $retry_delay = isset($copts['retry_delay']) ? $copts['retry_delay'] : 3;
 
   # form riap request
-  $rreq = array('action' => $action, 'ua' => 'Phinci');
+  $rreq = array('action' => $action, 'ua' => "Phinci/$PHINCI_VERSION");
   foreach($extra as $k => $v) { $rreq[$k] = $v; }
 
   # put all riap request keys, except some like args, to http headers
@@ -134,4 +134,3 @@ function phi_http_request($action, $url, $extra=array(), $copts=array()) {
   #echo "D2\n";
   return $res;
 }
-
