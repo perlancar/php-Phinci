@@ -32,6 +32,8 @@
 $PHINCI_VERSION = '20130308.1';
 
 function phi_http_request($action, $url, $extra=array(), $copts=array()) {
+  global $PHINCI_VERSION;
+
   if (!extension_loaded("curl")) die("curl extension required");
 
   # copts
