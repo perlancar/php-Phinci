@@ -122,7 +122,6 @@ function phi_http_request_unix($action, $url, $extra=array(), $copts=array()) {
           #echo "DEBUG: got body (".strlen($body)." bytes)\n";
           #echo "DEBUG: memory_get_usage() = ".memory_get_usage()."\n";
           $bodies[] = $body;
-          if ($rest <= 0) break;
         }
         $res = json_decode(join("", $bodies), true);
       }
