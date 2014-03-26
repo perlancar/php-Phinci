@@ -29,7 +29,7 @@
 # - support log viewing
 # - support proxy
 
-$PHINCI_VERSION = '20130308.1';
+$PHINCI_VERSION = '20140326.1';
 
 function phi_http_request($action, $url, $extra=array(), $copts=array()) {
   global $PHINCI_VERSION;
