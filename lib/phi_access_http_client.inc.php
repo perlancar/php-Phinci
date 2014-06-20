@@ -29,7 +29,7 @@
 # - support log viewing
 # - support proxy
 
-$PHINCI_VERSION = '20140326.1';
+$PHINCI_VERSION = '20140620.1';
 
 function phi_http_request($action, $url, $extra=array(), $copts=array()) {
   global $PHINCI_VERSION;
@@ -90,6 +90,8 @@ function phi_http_request($action, $url, $extra=array(), $copts=array()) {
   }
   # ==
 
+  $debug = isset($copts['debug']) && $copts['debug'];
+
   $attempts = 0;
   $do_retry = true;
   while (true) {
@@ -97,7 +99,7 @@ function phi_http_request($action, $url, $extra=array(), $copts=array()) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_VERBOSE, 0);
+    curl_setopt($ch, CURLOPT_VERBOSE, $debug);
     curl_setopt($ch, CURLOPT_POST, 1);
     #curl_setopt($ch, CURLOPT_POSTFIELDS, $args_s);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields_s);
