@@ -111,6 +111,8 @@ function phi_http_request($action, $url, $extra=array(), $copts=array()) {
     if (preg_match('/^https/i', $url)) {
       if (isset($copts['ssl_verify_peer']) && !$copts['ssl_verify_peer'])
           curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+      if (isset($copts['ssl_verify_host']) && !$copts['ssl_verify_host'])
+          curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     }
     $cres = curl_exec($ch);
     $cinfo = curl_getinfo($ch);
