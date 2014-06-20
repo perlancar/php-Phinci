@@ -24,6 +24,8 @@
 # other known copts:
 # - retries (int, default 2)
 # - retry_delay (int, default 3)
+# - ssl_verify_host (bool, can also be set to 0 to disable hostname checking, useful if you use dummy certificate where hostname doesn't match IP)
+# - debug (bool, if set to true will turn on CURLOPT_VERBOSE)
 
 # todo:
 # - support log viewing
