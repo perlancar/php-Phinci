@@ -140,5 +140,24 @@ function phi_http_request_unix($action, $url, $extra=array(), $copts=array()) {
 
   } # while(1)
 
+  # BEGIN COPY PASTE FROM phi_access_http_client.inc.php
+  $ver = 1.1;
+  if (isset($res[3]) && $res[3]['riap.v']) $ver = $res[3]['riap.v'];
+  if ($ver >= 1.2) {
+    # strip riap.* keys from result metadata
+    foreach ($res[3] as $k => $val) {
+      if (!preg_match('/\Ariap\./', $k)) continue;
+      if ($k == 'riap.v') {
+      } elseif ($k == 'riap.result_encoding') {
+        if ($val != 'base64') return array(501, "Unknown result_encoding '$val', only 'base64' is supported");
+        $res[2] = base64_decode($res[2]);
+      } else {
+        return array(501, "Unknown Riap attribute in result metadata '$k'");
+      }
+      unset($res[3][$k]);
+    }
+  }
+  # END COPY PASTE FROM phi_access_http_client.inc.php
+
   return $res;
 }

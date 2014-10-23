@@ -2,7 +2,7 @@
 
 # Riap::HTTP client.
 #
-# This software is copyright (c) 2013 by Steven Haryanto,
+# This software is copyright (c) 2013-2014 by Steven Haryanto,
 # <stevenharyanto@gmail.com>.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -31,7 +31,7 @@
 # - support log viewing
 # - support proxy
 
-$PHINCI_VERSION = '20140620.1';
+$PHINCI_VERSION = '20141023.1';
 
 function phi_http_request($action, $url, $extra=array(), $copts=array()) {
   global $PHINCI_VERSION;
@@ -137,6 +137,23 @@ function phi_http_request($action, $url, $extra=array(), $copts=array()) {
     $attempts++;
     if ($attempts > $retries) break;
     sleep($retry_delay);
+  }
+
+  $ver = 1.1;
+  if (isset($res[3]) && $res[3]['riap.v']) $ver = $res[3]['riap.v'];
+  if ($ver >= 1.2) {
+    # strip riap.* keys from result metadata
+    foreach ($res[3] as $k => $val) {
+      if (!preg_match('/\Ariap\./', $k)) continue;
+      if ($k == 'riap.v') {
+      } elseif ($k == 'riap.result_encoding') {
+        if ($val != 'base64') return array(501, "Unknown result_encoding '$val', only 'base64' is supported");
+        $res[2] = base64_decode($res[2]);
+      } else {
+        return array(501, "Unknown Riap attribute in result metadata '$k'");
+      }
+      unset($res[3][$k]);
+    }
   }
 
   #echo "D2\n";
