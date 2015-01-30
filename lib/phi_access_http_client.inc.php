@@ -78,7 +78,7 @@ function phi_http_request($action, $url, $extra=array(), $copts=array()) {
   # put args in form fields
   $postfields = array();
   foreach ($args as $k => $v) {
-    if (!isset($v) || is_array($v)) {
+    if (!isset($v) || is_array($v) || is_object($v)) {
       $postfields["$k:j"] = json_encode($v);
     } else {
       $postfields[$k] = $v;
